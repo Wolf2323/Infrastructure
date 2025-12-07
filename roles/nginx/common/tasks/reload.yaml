@@ -1,0 +1,8 @@
+---
+- name: Validate nginx config
+  ansible.builtin.command: nginx -t
+
+- name: Reload nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
