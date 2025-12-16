@@ -3,6 +3,9 @@
   ansible.builtin.template:
     src: shared.configuration.json.j2
     dest: /server/reposilite/shared.configuration.json
+    owner: reposilite
+    group: reposilite
+    mode: '0640'
   notify: Restart reposilite
 
 - name: Create reposilite systemd service file
