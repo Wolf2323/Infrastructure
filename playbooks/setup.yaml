@@ -5,6 +5,8 @@
   roles:
     - role: base
       tags: [ base ]
+    - role: ssh
+      tags: [ ssh ]
     - role: php
       tags: [ php ]
     - role: nginx/core
