@@ -1,0 +1,43 @@
+---
+- name: Install PHP packages
+  community.general.pacman:
+    name:
+      - php-fpm
+      - php-gd
+    state: present
+
+- name: Add PHP config overrides
+  ansible.builtin.template:
+    src: overrides.ini.j2
+    dest: /etc/php/conf.d/overrides.ini
+  notify: Restart php-fpm
+
+- name: Configure PHP-FPM to listen on a unix socket
+  ansible.builtin.lineinfile:
+    path: /etc/php/php-fpm.d/www.conf
+    regexp: '^listen[ \t]*='
+    line: 'listen = /run/php-fpm/php-fpm.sock'
+    insertafter: '^;listen[ \t=]'
+  notify: Restart php-fpm
+
+- name: Configure PHP-FPM unix socket owner
+  ansible.builtin.lineinfile:
+    path: /etc/php/php-fpm.d/www.conf
+    regexp: '^listen\.owner[ \t]*='
+    line: 'listen.owner = http'
+    insertafter: '^;listen\.owner[ \t=]'
+  notify: Restart php-fpm
+
+- name: Configure PHP-FPM unix socket group
+  ansible.builtin.lineinfile:
+    path: /etc/php/php-fpm.d/www.conf
+    regexp: '^listen\.group[ \t]*='
+    line: 'listen.group = http'
+    insertafter: '^;listen\.group[ \t=]'
+  notify: Restart php-fpm
+
+- name: Enable PHP-FPM service
+  ansible.builtin.service:
+    name: php-fpm
+    enabled: true
+    state: started
