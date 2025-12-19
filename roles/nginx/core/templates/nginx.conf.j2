@@ -18,6 +18,9 @@ http {
     sendfile on;
     tcp_nopush on;
     tcp_nodelay on;
+    aio threads;
+    directio 8m;
+    output_buffers 1 128k;
 
     keepalive_timeout 5 5;
     send_timeout 3600;
