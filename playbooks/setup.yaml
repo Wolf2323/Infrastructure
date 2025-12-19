@@ -3,5 +3,13 @@
   hosts: beton_quest
   become: true
   roles:
+    - role: base
+      tags: [ base ]
+    - role: ssh
+      tags: [ ssh ]
+    - role: php
+      tags: [ php ]
+    - role: nginx/core
+      tags: [ nginx ]
     - role: reposilite
       tags: [ reposilite ]

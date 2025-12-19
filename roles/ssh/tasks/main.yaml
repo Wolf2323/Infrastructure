@@ -1,0 +1,17 @@
+---
+- name: Install ssh package
+  community.general.pacman:
+    name: openssh
+    state: present
+
+- name: Add drop-in sshd configuration
+  ansible.builtin.template:
+    src: 60-overrides.conf.j2
+    dest: /etc/ssh/sshd_config.d/60-overrides.conf
+  notify: Reload sshd
+
+- name: Enable sshd service
+  ansible.builtin.service:
+    name: sshd
+    enabled: true
+    state: started
