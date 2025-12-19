@@ -1,0 +1,37 @@
+---
+- name: Install nginx packages
+  community.general.pacman:
+    name:
+      - nginx
+      - certbot
+      - certbot-nginx
+    state: present
+
+- name: Create http group
+  ansible.builtin.group:
+    name: http
+    gid: 33
+    system: true
+
+- name: Create http user
+  ansible.builtin.user:
+    name: http
+    uid: 33
+    group: http
+    system: true
+    shell: /usr/bin/nologin
+    home: /server/www
+
+- name: Create webserver home
+  ansible.builtin.file:
+    path: /server/www
+    state: directory
+    owner: http
+    group: http
+    mode: '0755'
+
+- name: Create sites directory
+  ansible.builtin.file:
+    path: /etc/nginx/sites
+    state: directory
+    mode: '0755'
