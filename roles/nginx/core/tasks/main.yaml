@@ -1,3 +1,4 @@
 ---
 - ansible.builtin.import_tasks: base.yaml
 - ansible.builtin.import_tasks: configs.yaml
+- ansible.builtin.import_tasks: service.yaml
